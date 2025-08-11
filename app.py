@@ -1,16 +1,11 @@
-import os
 import streamlit as st
 from dotenv import load_dotenv
 from PyPDF2 import PdfReader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings, GoogleGenerativeAI
 from langchain_community.vectorstores import FAISS
 from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.callbacks import get_openai_callback
-
 from langchain.prompts import PromptTemplate
-
-from langchain_google_genai import GoogleGenerativeAI
 
 
 @st.cache_resource
