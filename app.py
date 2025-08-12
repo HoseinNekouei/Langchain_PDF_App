@@ -33,12 +33,17 @@ def extract_pdf_text(pdf_file):
     """Extract text from PDF pages, skipping empty pages."""
     reader = PdfReader(pdf_file)
     text = ""
+    error_page = []
     for i, page in enumerate(reader.pages, start=1):
         page_text = page.extract_text()
         if page_text:
             text += page_text
         else:
-            st.warning(f"⚠ Page {i} has no extractable text (might be scanned).")
+            error_page.append(i)
+
+    if error_page:
+        st.warning(f"⚠ Page {error_page} has no extractable text (might be scanned).")
+
     return text
 
 
