@@ -60,14 +60,16 @@ def main():
 
     # Split text
     text_splitter = RecursiveCharacterTextSplitter(
-        separators=["\n"],  # FIX: must be list
+        separators=["\n"],
         chunk_size=1000,
         chunk_overlap=200,
         length_function=len,
     )
+
     chunks = text_splitter.split_text(texts)
-    if not chunks:
-        st.error("Text splitting failed — no chunks were created.")
+
+    if not chunks or not any(c.strip() for c in chunks):
+        st.error("No valid text chunks found — the PDF may be empty or scanned.")
         st.stop()
 
     # Load embeddings
