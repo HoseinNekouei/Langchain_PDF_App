@@ -1,5 +1,4 @@
 import streamlit as st
-from dotenv import load_dotenv
 from PyPDF2 import PdfReader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, GoogleGenerativeAI
@@ -14,18 +13,18 @@ def load_embeddings():
     grpc.aio (which GoogleGenerativeAIEmbeddings uses internally) needs an active asyncio event loop, 
     but Streamlit runs your script in a thread without one by default.
     """
+    api_key = st.secrets['GOOGLE_API_KEY']
+
     import asyncio
     try:
         asyncio.get_running_loop()
     except RuntimeError:
         asyncio.set_event_loop(asyncio.new_event_loop())
 
-    return GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+    return GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key= api_key)
 
 
 def main():
-    load_dotenv()
-
     st.set_page_config(
         page_title="Chat with PDF",
         page_icon= ":books:",
